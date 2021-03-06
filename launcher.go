@@ -44,6 +44,7 @@ func NewLauncher(rpcUrl string, keyFilepath string, password string) *Launcher {
 func (launcher *Launcher) DeployContract(contract *Contract) {
 	tx := contract.BuildTransaction()
 	err := launcher.cli.SendTransaction(context.Background(),tx)
+
 	if err != nil {
 
 	}

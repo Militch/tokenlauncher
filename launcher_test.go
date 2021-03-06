@@ -2,6 +2,7 @@ package tokenlauncher
 
 import (
 	"testing"
+	contract2 "tokenlauncher/contract"
 	"tokenlauncher/uint256"
 )
 
@@ -30,7 +31,7 @@ func TestLauncher_DeployContract(t *testing.T) {
 		Decimals: uint8(12),
 	}
 
-	contract := NewERC20TokenContract(token)
+	contract := contract2.NewERC20TokenContract(token)
 	launcher.DeployContract(contract)
 
 }
