@@ -3,11 +3,11 @@ package tokenlauncher
 import "tokenlauncher/uint256"
 
 type ERC20Token struct {
-	Name string
-	Symbol string
-	Decimals uint8
-	TotalSupply uint256.UInt256
-	launcher Launcher
+	Name          string
+	Symbol        string
+	Decimals      uint8
+	InitialSupply uint256.UInt256
+	launcher      Launcher
 }
 
 func NewERC20TokenByContract(contract *Contract) *ERC20Token {

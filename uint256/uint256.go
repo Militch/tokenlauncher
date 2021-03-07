@@ -255,3 +255,7 @@ func (uint256 *UInt256) Cmp(y *UInt256) int {
 	}
 	return 0
 }
+
+func (uint256 *UInt256) ToBigInt() *big.Int  {
+	return new(big.Int).SetBytes(uint256.ToBytes())
+}
