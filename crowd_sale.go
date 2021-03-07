@@ -1,7 +1,13 @@
 package tokenlauncher
 
-import "tokenlauncher/uint256"
+import (
+	"github.com/ethereum/go-ethereum/common"
+	"tokenlauncher/uint256"
+)
 
 type CrowdSale struct {
-	TotalAmount uint256.UInt256
+	TokenAddress common.Address
+	TargetFunds uint256.UInt256
+	Price uint256.UInt256
+	
 }
