@@ -1,18 +1,19 @@
 package main
 
 import (
-	"fmt"
-	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
+	"tokenlauncher"
 )
 
 func main() {
-	client, err := ethclient.Dial("http://localhost:8101")
+	s,err := tokenlauncher.NewRPCServerStarter()
 	if err != nil {
 		log.Fatal(err)
 	}
-	_ = client
-	fmt.Printf("abc \n")
+	err = s.Bootstrap(":9058")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	//client.
 }

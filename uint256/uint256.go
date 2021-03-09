@@ -36,6 +36,18 @@ func NewUInt256ByUInt32(n uint32) *UInt256 {
 	bs := &UInt256{u0,u1,u2,u3}
 	return bs
 }
+func NewUInt256ByUInt64(n uint64) *UInt256 {
+	u7 := byte((n & uint64(0xff << 56)) >> 56)
+	u6 := byte((n & uint64(0xff << 48)) >> 48)
+	u5 := byte((n & uint64(0xff << 40)) >> 40)
+	u4 := byte((n & uint64(0xff << 32)) >> 32)
+	u3 := byte((n & uint64(0xff << 24)) >> 24)
+	u2 := byte((n & uint64(0xff << 16)) >> 16)
+	u1 := byte((n & uint64(0xff << 8)) >> 8)
+	u0 := byte((n & uint64(0xff << 0)) >> 0)
+	bs := &UInt256{u0, u1, u2, u3, u4, u5, u6, u7}
+	return bs
+}
 func NewUInt256Zero() *UInt256 {
 	bs := &UInt256{0}
 	return bs

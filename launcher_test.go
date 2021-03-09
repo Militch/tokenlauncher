@@ -1,8 +1,11 @@
 package tokenlauncher
 
 import (
+	"fmt"
 	"math/big"
 	"testing"
+	"time"
+	"tokenlauncher/model"
 	"tokenlauncher/uint256"
 )
 
@@ -25,23 +28,38 @@ func TestLauncher_DeployContract(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	totalSupply := *uint256.NewUInt256ByUInt32(uint32(1))
-	token := &ERC20Token{
+	token := &model.ERC20TokenOpts{
 		Name: "UniToken",
 		Symbol: "UNI",
-		InitialSupply: totalSupply,
+		InitialSupply: "0x1",
 		Decimals: uint8(12),
 	}
-	c, err := NewERC20TokenContract(token)
+	cAddr, err := launcher.DeployERC20Token(token)
 	if err != nil {
 		t.Error(err)
 	}
-	addr, err := launcher.DeployContract(c)
+	t.Logf("Contract address: %s", cAddr.Hex())
+	targetFunds := *uint256.NewUInt256ByUInt32(100)
+	price := *uint256.NewUInt256("0xde0b6b3a7640000")
+	currentTime := time.Now().Unix()
+	startTime := *uint256.NewUInt256ByUInt64(uint64(currentTime))
+	endTimeAt := currentTime + (1 * 24 * 60 * 60)
+	endTime := *uint256.NewUInt256ByUInt64(uint64(endTimeAt))
+	crowdSaleOpts := &model.CrowdSaleOpts{
+		TokenAddress: *cAddr,
+		TargetFunds: targetFunds,
+		Price: price,
+		StartTime: startTime,
+		EndTime: endTime,
+	}
+	cAddr, err = launcher.DeployCrowdSale(crowdSaleOpts)
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("Contract address: %s", addr.Hex())
-	t.Logf("tk = eth.contract(abi).at('%s')", addr.Hex())
+	if err != nil {
+		t.Error(err)
+	}
+	t.Logf("Contract address: %s", cAddr.Hex())
 }
 
 func TestImportKeyStoreByFilepath(t *testing.T) {
@@ -50,4 +68,15 @@ func TestImportKeyStoreByFilepath(t *testing.T) {
 	key, err := ImportKeyStoreByFilepath(keyFile, password)
 	_ = key
 	_ = err
+}
+
+func TestName(t *testing.T) {
+	currentTime := time.Now().Unix()
+	startTime := *uint256.NewUInt256ByUInt64(uint64(currentTime))
+	endTimeAt := currentTime + (1 * 24 * 60 * 60)
+	endTime := *uint256.NewUInt256ByUInt64(uint64(endTimeAt))
+	fmt.Printf("currentTime: %d\n", currentTime)
+	fmt.Printf("endTimeAt: %d\n", endTimeAt)
+	fmt.Printf("startTime: %d\n", startTime.ToBigInt())
+	fmt.Printf("endTime: %d\n", endTime.ToBigInt())
 }
