@@ -2,7 +2,6 @@ package api
 
 import (
 	"github.com/ethereum/go-ethereum/common"
-	"math/big"
 	"strconv"
 	"tokenlauncher/launcher"
 	"tokenlauncher/uint256"
@@ -87,10 +86,7 @@ type ERC20TokenTxGot struct {
 
 
 func (handler *ERC20TokenAPIHandler) NewAndDeploy(tk ERC20TokenReq, resp *ContractResp) error  {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -113,10 +109,7 @@ func (handler *ERC20TokenAPIHandler) NewAndDeploy(tk ERC20TokenReq, resp *Contra
 }
 
 func (handler *ERC20TokenAPIHandler) GetName(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -134,10 +127,7 @@ func (handler *ERC20TokenAPIHandler) GetName(get ERC20TokenValueGet, got *ERC20T
 }
 
 func (handler *ERC20TokenAPIHandler) GetSymbol(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -155,10 +145,7 @@ func (handler *ERC20TokenAPIHandler) GetSymbol(get ERC20TokenValueGet, got *ERC2
 }
 
 func (handler *ERC20TokenAPIHandler) GetDecimals(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -176,10 +163,7 @@ func (handler *ERC20TokenAPIHandler) GetDecimals(get ERC20TokenValueGet, got *ER
 }
 
 func (handler *ERC20TokenAPIHandler) GetTotalSupply(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -197,10 +181,7 @@ func (handler *ERC20TokenAPIHandler) GetTotalSupply(get ERC20TokenValueGet, got 
 }
 
 func (handler *ERC20TokenAPIHandler) BalanceOf(get ERC20TokenOwnerGet, got *ERC20TokenValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -219,10 +200,7 @@ func (handler *ERC20TokenAPIHandler) BalanceOf(get ERC20TokenOwnerGet, got *ERC2
 }
 
 func (handler *ERC20TokenAPIHandler) GetAllowance(get ERC20TokenAllowanceGet, got *ERC20TokenValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -242,10 +220,7 @@ func (handler *ERC20TokenAPIHandler) GetAllowance(get ERC20TokenAllowanceGet, go
 }
 
 func (handler *ERC20TokenAPIHandler) Approve(set ERC20TokenApproveSet, got *ERC20TokenTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -269,10 +244,7 @@ func (handler *ERC20TokenAPIHandler) Approve(set ERC20TokenApproveSet, got *ERC2
 }
 
 func (handler *ERC20TokenAPIHandler) Burn(set ERC20TokenBurnSet, got *ERC20TokenTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -295,10 +267,7 @@ func (handler *ERC20TokenAPIHandler) Burn(set ERC20TokenBurnSet, got *ERC20Token
 }
 
 func (handler *ERC20TokenAPIHandler) BurnFrom(set ERC20TokenBurnFromSet, got *ERC20TokenTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -322,10 +291,7 @@ func (handler *ERC20TokenAPIHandler) BurnFrom(set ERC20TokenBurnFromSet, got *ER
 }
 
 func (handler *ERC20TokenAPIHandler) Transfer(set ERC20TokenTransferSet, got *ERC20TokenTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -349,10 +315,7 @@ func (handler *ERC20TokenAPIHandler) Transfer(set ERC20TokenTransferSet, got *ER
 }
 
 func (handler *ERC20TokenAPIHandler) TransferFrom(set ERC20TokenTransferFromSet, got *ERC20TokenTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}

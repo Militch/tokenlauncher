@@ -2,7 +2,6 @@ package api
 
 import (
 	"github.com/ethereum/go-ethereum/common"
-	"math/big"
 	"strconv"
 	"tokenlauncher/launcher"
 	"tokenlauncher/uint256"
@@ -51,10 +50,7 @@ type CrowdSaleTargetFundsSet struct {
 }
 
 func (handler *CrowdSaleAPIHandler) NewAndDeploy(req CrowdSaleReq, resp *ContractResp) error  {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -83,10 +79,8 @@ func (handler *CrowdSaleAPIHandler) NewAndDeploy(req CrowdSaleReq, resp *Contrac
 
 
 func (handler *CrowdSaleAPIHandler) GetFundsSoldTotal(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -104,10 +98,8 @@ func (handler *CrowdSaleAPIHandler) GetFundsSoldTotal(get CrowdSaleValueGet, got
 }
 
 func (handler *CrowdSaleAPIHandler) GetFundsRaisedTotal(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -125,10 +117,8 @@ func (handler *CrowdSaleAPIHandler) GetFundsRaisedTotal(get CrowdSaleValueGet, g
 }
 
 func (handler *CrowdSaleAPIHandler) GetToken(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -146,10 +136,8 @@ func (handler *CrowdSaleAPIHandler) GetToken(get CrowdSaleValueGet, got *CrowdSa
 }
 
 func (handler *CrowdSaleAPIHandler) GetPrice(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -168,10 +156,7 @@ func (handler *CrowdSaleAPIHandler) GetPrice(get CrowdSaleValueGet, got *CrowdSa
 
 
 func (handler *CrowdSaleAPIHandler) GetTargetFunds(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -190,10 +175,7 @@ func (handler *CrowdSaleAPIHandler) GetTargetFunds(get CrowdSaleValueGet, got *C
 
 
 func (handler *CrowdSaleAPIHandler) GetStartTime(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -212,10 +194,7 @@ func (handler *CrowdSaleAPIHandler) GetStartTime(get CrowdSaleValueGet, got *Cro
 
 
 func (handler *CrowdSaleAPIHandler) GetEndTime(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+    la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -233,10 +212,7 @@ func (handler *CrowdSaleAPIHandler) GetEndTime(get CrowdSaleValueGet, got *Crowd
 }
 
 func (handler *CrowdSaleAPIHandler) GetTotalAmount(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -262,10 +238,7 @@ func btoi(b bool) int {
 }
 
 func (handler *CrowdSaleAPIHandler) IsActive(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -283,10 +256,7 @@ func (handler *CrowdSaleAPIHandler) IsActive(get CrowdSaleValueGet, got *CrowdSa
 }
 
 func (handler *CrowdSaleAPIHandler) IsFinished(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -305,10 +275,7 @@ func (handler *CrowdSaleAPIHandler) IsFinished(get CrowdSaleValueGet, got *Crowd
 
 
 func (handler *CrowdSaleAPIHandler) IsUncompleted(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -327,10 +294,7 @@ func (handler *CrowdSaleAPIHandler) IsUncompleted(get CrowdSaleValueGet, got *Cr
 
 
 func (handler *CrowdSaleAPIHandler) IsSalesCompleted(get CrowdSaleValueGet, got *CrowdSaleValueGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -348,10 +312,7 @@ func (handler *CrowdSaleAPIHandler) IsSalesCompleted(get CrowdSaleValueGet, got 
 }
 
 func (handler *CrowdSaleAPIHandler) Withdraw(set CrowdSaleWithdrawSet, got *CrowdSaleTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -374,10 +335,7 @@ func (handler *CrowdSaleAPIHandler) Withdraw(set CrowdSaleWithdrawSet, got *Crow
 
 
 func (handler *CrowdSaleAPIHandler) SetStartTime(set CrowdSaleTimeSet, got *CrowdSaleTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -400,10 +358,7 @@ func (handler *CrowdSaleAPIHandler) SetStartTime(set CrowdSaleTimeSet, got *Crow
 }
 
 func (handler *CrowdSaleAPIHandler) SetEndTime(set CrowdSaleTimeSet, got *CrowdSaleTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -426,10 +381,7 @@ func (handler *CrowdSaleAPIHandler) SetEndTime(set CrowdSaleTimeSet, got *CrowdS
 }
 
 func (handler *CrowdSaleAPIHandler) SetPrice(set CrowdSalePriceSet, got *CrowdSaleTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}
@@ -453,10 +405,7 @@ func (handler *CrowdSaleAPIHandler) SetPrice(set CrowdSalePriceSet, got *CrowdSa
 
 
 func (handler *CrowdSaleAPIHandler) SetTargetFunds(set CrowdSaleTargetFundsSet, got *CrowdSaleTxGot) error {
-	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
-	password := "123"
-	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	la, err := launcher.NewLauncherDefault()
 	if err != nil {
 		return err
 	}

@@ -2,6 +2,7 @@ package launcher
 
 import (
 	"encoding/hex"
+	"encoding/json"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
@@ -15,8 +16,15 @@ import (
 type Launcher struct {
 	CLI *ethclient.Client
 	key *keystore.Key
-	chainID *big.Int
+	chainId *big.Int
 
+}
+
+type config struct {
+	RpcUrl      string `json:"rpcUrl"`
+	ChainId int64 `json:"chainID"`
+	KeyFilePath string `json:"keyFilePath"`
+	KeyPassword string `json:"keyPassword"`
 }
 
 func ImportKeyStoreByFilepath(keyFilepath string, password string) (key *keystore.Key, err error) {
@@ -27,8 +35,21 @@ func ImportKeyStoreByFilepath(keyFilepath string, password string) (key *keystor
 	return keystore.DecryptKey(jsonBytes, password)
 }
 
+func NewLauncherDefault() (*Launcher, error)  {
+	data, err := ioutil.ReadFile("./config.json")
+	if err != nil {
+		return nil, err
+	}
+	var c *config
+	err = json.Unmarshal(data, &c)
+	if err != nil{
+		return nil, err
+	}
+	return NewLauncher(c.RpcUrl, big.NewInt(c.ChainId), c.KeyFilePath, c.KeyPassword)
+}
+
 // 创建启动器
-func NewLauncher(rpcUrl string, chainID *big.Int, keyFilepath string, password string) (*Launcher, error) {
+func NewLauncher(rpcUrl string, chainId *big.Int, keyFilepath string, password string) (*Launcher, error) {
 	client, err := ethclient.Dial(rpcUrl)
 	if err != nil {
 		return nil, err
@@ -41,14 +62,14 @@ func NewLauncher(rpcUrl string, chainID *big.Int, keyFilepath string, password s
 	return &Launcher{
 		CLI: client,
 		key: key,
-		chainID: chainID,
+		chainId: chainId,
 	}, nil
 }
 
 func (launcher *Launcher) DefaultTxOpts()  (*bind.TransactOpts, error)  {
 	privateKey := launcher.key.PrivateKey
 	return bind.NewKeyedTransactorWithChainID(
-		privateKey,  launcher.chainID)
+		privateKey,  launcher.chainId)
 }
 
 // 部署合约
@@ -88,7 +109,7 @@ func (launcher *Launcher) DeployCrowdSale(opts *CrowdSaleOpts)  (*Contract, erro
 	address := launcher.key.Address
 	privateKey := launcher.key.PrivateKey
 	txOpts, err := bind.NewKeyedTransactorWithChainID(
-		privateKey, launcher.chainID)
+		privateKey, launcher.chainId)
 	if err != nil {
 		return nil, err
 	}
