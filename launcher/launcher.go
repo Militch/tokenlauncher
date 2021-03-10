@@ -1,6 +1,7 @@
 package launcher
 
 import (
+	"encoding/hex"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
@@ -43,9 +44,8 @@ func NewLauncher(rpcUrl string, chainID *big.Int, keyFilepath string, password s
 	}, nil
 }
 
-
 // 部署合约
-func (launcher *Launcher) DeployERC20Token(opts *model.ERC20TokenOpts) (*common.Address, error) {
+func (launcher *Launcher) DeployERC20Token(opts *model.ERC20TokenOpts) (*Contract, error) {
 	address := launcher.key.Address
 	privateKey := launcher.key.PrivateKey
 	txOpts, err := bind.NewKeyedTransactorWithChainID(
@@ -54,14 +54,22 @@ func (launcher *Launcher) DeployERC20Token(opts *model.ERC20TokenOpts) (*common.
 		return nil, err
 	}
 	initialSupply := uint256.NewUInt256(opts.InitialSupply).ToBigInt()
-	address, _, _, err = contract.DeployERC20Token(
+	address, tx, _, err := contract.DeployERC20Token(
 		txOpts, launcher.cli,opts.Name, opts.Symbol,
 		initialSupply, opts.Decimals)
 	if err != nil {
 		return nil, err
 	}
+	txdata := hex.EncodeToString(tx.Data())
+	txhash := tx.Hash().Hex()
+	con := &Contract{
+		Address: address.Hex(),
+		TxHash: txhash,
+		ABI: contract.ERC20TokenABI,
+		Data: txdata,
+	}
 	// 合约地址
-	return &address,nil
+	return con,nil
 }
 
 func (launcher *Launcher) DeployCrowdSale(opts *model.CrowdSaleOpts) (*common.Address, error) {

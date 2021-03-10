@@ -2,6 +2,7 @@ package launcher
 
 import (
 	"fmt"
+	"github.com/ethereum/go-ethereum/common"
 	"math/big"
 	"testing"
 	"time"
@@ -34,11 +35,11 @@ func TestLauncher_DeployContract(t *testing.T) {
 		InitialSupply: "0x1",
 		Decimals: uint8(12),
 	}
-	cAddr, err := launcher.DeployERC20Token(token)
+	con, err := launcher.DeployERC20Token(token)
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("Contract address: %s", cAddr.Hex())
+	t.Logf("Contract address: %s", con.Address)
 	targetFunds := *uint256.NewUInt256ByUInt32(100)
 	price := *uint256.NewUInt256("0xde0b6b3a7640000")
 	currentTime := time.Now().Unix()
@@ -46,13 +47,13 @@ func TestLauncher_DeployContract(t *testing.T) {
 	endTimeAt := currentTime + (1 * 24 * 60 * 60)
 	endTime := *uint256.NewUInt256ByUInt64(uint64(endTimeAt))
 	crowdSaleOpts := &model.CrowdSaleOpts{
-		TokenAddress: *cAddr,
+		TokenAddress: common.HexToAddress(con.Address),
 		TargetFunds: targetFunds,
 		Price: price,
 		StartTime: startTime,
 		EndTime: endTime,
 	}
-	cAddr, err = launcher.DeployCrowdSale(crowdSaleOpts)
+	cAddr, err := launcher.DeployCrowdSale(crowdSaleOpts)
 	if err != nil {
 		t.Error(err)
 	}

@@ -33,7 +33,7 @@ type ERC20Token struct {
 
 
 
-func (handler *ERC20TokenAPIHandler) NewAndDeploy(tk ERC20Token, contract *model.Contract) error  {
+func (handler *ERC20TokenAPIHandler) NewAndDeploy(tk ERC20Token, contract *launcher.Contract) error  {
 	rcpUrl := "http://localhost:8101"
 	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-05T09-35-51.816544100Z--60d1148b3b2ab38a5937dc30244a3b4c5ec6da52"
 	password := "123"
