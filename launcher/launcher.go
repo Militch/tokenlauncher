@@ -1,4 +1,4 @@
-package tokenlauncher
+package launcher
 
 import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"

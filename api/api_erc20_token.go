@@ -1,7 +1,9 @@
 package api
 
 import (
-	"log"
+	"math/big"
+	"strconv"
+	"tokenlauncher/launcher"
 	"tokenlauncher/model"
 )
 
@@ -22,12 +24,36 @@ type ERC20TokenGot struct {
 	Address string `json:"address"`
 }
 
-func (handler *ERC20TokenAPIHandler) ERC20TokenNew(opts model.ERC20TokenOpts, contract *model.Contract) error  {
-	log.Println("server\t-", "Receive GetName call, id:", opts.Name)
-	contract.Address = "abc"
-	return nil
-	//jsonapiRuntime := jsonapi.NewRuntime().Instrument("blogs.list")
+type ERC20Token struct {
+	Name          string
+	Symbol        string
+	Decimals      string
+	InitialSupply string
+}
 
+
+
+func (handler *ERC20TokenAPIHandler) NewAndDeploy(tk ERC20Token, contract *model.Contract) error  {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-05T09-35-51.816544100Z--60d1148b3b2ab38a5937dc30244a3b4c5ec6da52"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	decimals,err := strconv.ParseInt(tk.Decimals,10,8)
+	tkOpts := &model.ERC20TokenOpts{
+		Name: tk.Name,
+		Symbol: tk.Symbol,
+		InitialSupply: tk.InitialSupply,
+		Decimals:uint8(decimals),
+	}
+	r, err := la.DeployERC20Token(tkOpts)
+	if err != nil {
+		return err
+	}
+	_ = r
+	return nil
 }
 
 func (handler *ERC20TokenAPIHandler) GetName(get ERC20TokenGet, got *ERC20TokenGot) error {

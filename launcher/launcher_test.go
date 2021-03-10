@@ -1,4 +1,4 @@
-package tokenlauncher
+package launcher
 
 import (
 	"fmt"
