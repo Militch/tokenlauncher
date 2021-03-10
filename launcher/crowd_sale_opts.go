@@ -1,4 +1,4 @@
-package model
+package launcher
 
 import (
 	"github.com/ethereum/go-ethereum/common"

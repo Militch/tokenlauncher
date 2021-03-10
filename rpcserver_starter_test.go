@@ -15,13 +15,8 @@ func TestNewRPCServer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = starter.RegisterName("Contract",
-		new(api.ContractAPIHandler))
-	if err != nil {
-		t.Fatal(err)
-	}
 	err = starter.RegisterName("CrowdSale",
-		new(api.ContractAPIHandler))
+		new(api.CrowdSaleAPIHandler))
 	if err != nil {
 		t.Fatal(err)
 	}

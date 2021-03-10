@@ -1,109 +1,378 @@
 package api
 
 import (
+	"github.com/ethereum/go-ethereum/common"
 	"math/big"
 	"strconv"
 	"tokenlauncher/launcher"
-	"tokenlauncher/model"
+	"tokenlauncher/uint256"
 )
 
 type ERC20TokenAPIHandler struct {
 
 }
 
-type ERC20TokenSender struct {
-	Address string `json:"address"`
-}
 
-type ERC20TokenGet struct {
-	Address string `json:"address"`
-	Params string `json:"params"`
-}
 
-type ERC20TokenGot struct {
-	Address string `json:"address"`
-}
-
-type ERC20Token struct {
-	Name          string
-	Symbol        string
-	Decimals      string
+type ERC20TokenReq struct {
+	Name string
+	Symbol string
+	Decimals string
 	InitialSupply string
 }
 
+type ContractResp struct {
+	Address string `json:"address"`
+	TxHash string `json:"txHash"`
+	ABI string `json:"abi"`
+	Data string `json:"data"`
+}
+
+type ERC20TokenValueGet struct {
+	Address string
+}
+
+type ERC20TokenOwnerGet struct {
+	Address string
+	Owner string
+}
+
+type ERC20TokenAllowanceGet struct {
+	Address string
+	Owner string
+	Spender string
+}
 
 
-func (handler *ERC20TokenAPIHandler) NewAndDeploy(tk ERC20Token, contract *launcher.Contract) error  {
+type ERC20TokenApproveSet struct {
+	Address string
+	Spender string
+	Value string
+}
+
+type ERC20TokenBurnSet struct {
+	Address string
+	Value string
+}
+
+type ERC20TokenBurnFromSet struct {
+	Address string
+	From string
+	Value string
+}
+
+type ERC20TokenTransferSet struct {
+	Address string
+	To string
+	Value string
+}
+
+type ERC20TokenTransferFromSet struct {
+	Address string
+	From string
+	To string
+	Value string
+}
+
+type ERC20TokenValueGot struct {
+	Value string `json:"value"`
+}
+
+
+
+type ERC20TokenTxGot struct {
+	Hash string `json:"hash"`
+}
+
+
+
+func (handler *ERC20TokenAPIHandler) NewAndDeploy(tk ERC20TokenReq, resp *ContractResp) error  {
 	rcpUrl := "http://localhost:8101"
-	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-05T09-35-51.816544100Z--60d1148b3b2ab38a5937dc30244a3b4c5ec6da52"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
 	password := "123"
 	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
 	if err != nil {
 		return err
 	}
 	decimals,err := strconv.ParseInt(tk.Decimals,10,8)
-	tkOpts := &model.ERC20TokenOpts{
+	tkOpts := &launcher.ERC20TokenOpts{
 		Name: tk.Name,
 		Symbol: tk.Symbol,
 		InitialSupply: tk.InitialSupply,
 		Decimals:uint8(decimals),
 	}
-	r, err := la.DeployERC20Token(tkOpts)
+	contract, err := la.DeployERC20Token(tkOpts)
 	if err != nil {
 		return err
 	}
-	_ = r
+	resp.Address = contract.Address
+	resp.TxHash = contract.TxHash
+	resp.ABI = contract.ABI
+	resp.Data = contract.Data
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) GetName(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetName"
+func (handler *ERC20TokenAPIHandler) GetName(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := get.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	value,err := erc20token.Name(nil)
+	if err != nil {
+		return err
+	}
+	got.Value = value
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) GetSymbol(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) GetSymbol(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := get.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	value,err := erc20token.Symbol(nil)
+	if err != nil {
+		return err
+	}
+	got.Value = value
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) GetDecimals(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) GetDecimals(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := get.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	value,err := erc20token.Decimals(nil)
+	if err != nil {
+		return err
+	}
+	got.Value = strconv.Itoa(int(value))
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) GetTotalSupply(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) GetTotalSupply(get ERC20TokenValueGet, got *ERC20TokenValueGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := get.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	value,err := erc20token.TotalSupply(nil)
+	if err != nil {
+		return err
+	}
+	got.Value = "0x" + value.Text(16)
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) BalanceOf(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) BalanceOf(get ERC20TokenOwnerGet, got *ERC20TokenValueGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := get.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	ownerAddr := common.HexToAddress(get.Owner)
+	value,err := erc20token.BalanceOf(nil, ownerAddr )
+	if err != nil {
+		return err
+	}
+	got.Value = "0x" + value.Text(16)
 	return nil
 }
 
-
-func (handler *ERC20TokenAPIHandler) Approve(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) GetAllowance(get ERC20TokenAllowanceGet, got *ERC20TokenValueGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := get.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	ownerAddr := common.HexToAddress(get.Owner)
+	spenderAddr := common.HexToAddress(get.Spender)
+	value,err := erc20token.Allowance(nil, ownerAddr, spenderAddr)
+	if err != nil {
+		return err
+	}
+	got.Value = "0x" + value.Text(16)
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) Burn(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) Approve(set ERC20TokenApproveSet, got *ERC20TokenTxGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := set.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	spenderAddr := common.HexToAddress(set.Spender)
+	value := uint256.NewUInt256(set.Value)
+	txOpts, err := la.DefaultTxOpts()
+	if err != nil {
+		return err
+	}
+	tx, err := erc20token.Approve(txOpts,spenderAddr, value.ToBigInt())
+	if err != nil {
+		return err
+	}
+	got.Hash = tx.Hash().Hex()
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) BurnFrom(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) Burn(set ERC20TokenBurnSet, got *ERC20TokenTxGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := set.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	value := uint256.NewUInt256(set.Value)
+	txOpts, err := la.DefaultTxOpts()
+	if err != nil {
+		return err
+	}
+	tx, err := erc20token.Burn(txOpts, value.ToBigInt())
+	if err != nil {
+		return err
+	}
+	got.Hash = tx.Hash().Hex()
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) Transfer(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) BurnFrom(set ERC20TokenBurnFromSet, got *ERC20TokenTxGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := set.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	fromAddr := common.HexToAddress(set.From)
+	value := uint256.NewUInt256(set.Value)
+	txOpts, err := la.DefaultTxOpts()
+	if err != nil {
+		return err
+	}
+	tx, err := erc20token.BurnFrom(txOpts, fromAddr, value.ToBigInt())
+	if err != nil {
+		return err
+	}
+	got.Hash = tx.Hash().Hex()
 	return nil
 }
 
-func (handler *ERC20TokenAPIHandler) TransferFrom(get ERC20TokenGet, got *ERC20TokenGot) error {
-	got.Address = "GetSymbol"
+func (handler *ERC20TokenAPIHandler) Transfer(set ERC20TokenTransferSet, got *ERC20TokenTxGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := set.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	toAddr := common.HexToAddress(set.To)
+	value := uint256.NewUInt256(set.Value)
+	txOpts, err := la.DefaultTxOpts()
+	if err != nil {
+		return err
+	}
+	tx, err := erc20token.Transfer(txOpts, toAddr, value.ToBigInt())
+	if err != nil {
+		return err
+	}
+	got.Hash = tx.Hash().Hex()
+	return nil
+}
+
+func (handler *ERC20TokenAPIHandler) TransferFrom(set ERC20TokenTransferFromSet, got *ERC20TokenTxGot) error {
+	rcpUrl := "http://localhost:8101"
+	keyFile := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	la, err := launcher.NewLauncher(rcpUrl,big.NewInt(10086),keyFile,password)
+	if err != nil {
+		return err
+	}
+	contractAddr := set.Address
+	erc20token, err := la.LoadERC20TokenByContractAddr(contractAddr)
+	if err != nil {
+		return err
+	}
+	fromAddr := common.HexToAddress(set.From)
+	toAddr := common.HexToAddress(set.To)
+	value := uint256.NewUInt256(set.Value)
+	txOpts, err := la.DefaultTxOpts()
+	if err != nil {
+		return err
+	}
+	tx, err := erc20token.TransferFrom(txOpts, fromAddr, toAddr, value.ToBigInt())
+	if err != nil {
+		return err
+	}
+	got.Hash = tx.Hash().Hex()
 	return nil
 }
 

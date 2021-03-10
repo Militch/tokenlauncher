@@ -9,14 +9,14 @@ import (
 	"io/ioutil"
 	"math/big"
 	"tokenlauncher/contract"
-	"tokenlauncher/model"
 	"tokenlauncher/uint256"
 )
 
 type Launcher struct {
-	cli *ethclient.Client
+	CLI *ethclient.Client
 	key *keystore.Key
 	chainID *big.Int
+
 }
 
 func ImportKeyStoreByFilepath(keyFilepath string, password string) (key *keystore.Key, err error) {
@@ -37,30 +37,35 @@ func NewLauncher(rpcUrl string, chainID *big.Int, keyFilepath string, password s
 	if err != nil {
 		return nil, err
 	}
+
 	return &Launcher{
-		cli: client,
+		CLI: client,
 		key: key,
 		chainID: chainID,
 	}, nil
 }
 
-// 部署合约
-func (launcher *Launcher) DeployERC20Token(opts *model.ERC20TokenOpts) (*Contract, error) {
-	address := launcher.key.Address
+func (launcher *Launcher) DefaultTxOpts()  (*bind.TransactOpts, error)  {
 	privateKey := launcher.key.PrivateKey
-	txOpts, err := bind.NewKeyedTransactorWithChainID(
-		privateKey, launcher.chainID)
+	return bind.NewKeyedTransactorWithChainID(
+		privateKey,  launcher.chainID)
+}
+
+// 部署合约
+func (launcher *Launcher) DeployERC20Token(opts *ERC20TokenOpts) (*Contract, error) {
+	address := launcher.key.Address
+	txOpts, err := launcher.DefaultTxOpts()
 	if err != nil {
 		return nil, err
 	}
 	initialSupply := uint256.NewUInt256(opts.InitialSupply).ToBigInt()
 	address, tx, _, err := contract.DeployERC20Token(
-		txOpts, launcher.cli,opts.Name, opts.Symbol,
+		txOpts, launcher.CLI,opts.Name, opts.Symbol,
 		initialSupply, opts.Decimals)
 	if err != nil {
 		return nil, err
 	}
-	txdata := hex.EncodeToString(tx.Data())
+	txdata := "0x" + hex.EncodeToString(tx.Data())
 	txhash := tx.Hash().Hex()
 	con := &Contract{
 		Address: address.Hex(),
@@ -68,11 +73,18 @@ func (launcher *Launcher) DeployERC20Token(opts *model.ERC20TokenOpts) (*Contrac
 		ABI: contract.ERC20TokenABI,
 		Data: txdata,
 	}
-	// 合约地址
 	return con,nil
 }
 
-func (launcher *Launcher) DeployCrowdSale(opts *model.CrowdSaleOpts) (*common.Address, error) {
+func (launcher *Launcher) LoadERC20TokenByContractAddr(addr string) (*contract.ERC20Token, error) {
+	contractAddr := common.HexToAddress(addr)
+	return contract.NewERC20Token(contractAddr,launcher.CLI)
+}
+func (launcher *Launcher) LoadCrowdSaleByContractAddr(addr string) (*contract.CrowdSale, error) {
+	contractAddr := common.HexToAddress(addr)
+	return contract.NewCrowdSale(contractAddr,launcher.CLI)
+}
+func (launcher *Launcher) DeployCrowdSale(opts *CrowdSaleOpts)  (*Contract, error){
 	address := launcher.key.Address
 	privateKey := launcher.key.PrivateKey
 	txOpts, err := bind.NewKeyedTransactorWithChainID(
@@ -80,12 +92,20 @@ func (launcher *Launcher) DeployCrowdSale(opts *model.CrowdSaleOpts) (*common.Ad
 	if err != nil {
 		return nil, err
 	}
-	address, _, _, err = contract.DeployCrowdSale(
-		txOpts, launcher.cli,opts.TokenAddress, opts.TargetFunds.ToBigInt(),
+	address, tx, _, err := contract.DeployCrowdSale(
+		txOpts, launcher.CLI,opts.TokenAddress, opts.TargetFunds.ToBigInt(),
 		opts.Price.ToBigInt(), opts.StartTime.ToBigInt(), opts.EndTime.ToBigInt())
 	if err != nil {
 		return nil, err
 	}
+	txdata := "0x" + hex.EncodeToString(tx.Data())
+	txhash := tx.Hash().Hex()
 	// 合约地址
-	return &address,nil
+	con := &Contract{
+		Address: address.Hex(),
+		TxHash: txhash,
+		ABI: contract.ERC20TokenABI,
+		Data: txdata,
+	}
+	return con,nil
 }

@@ -1,4 +1,4 @@
-package model
+package launcher
 
 type ERC20TokenOpts struct {
 	Name          string `json:"name"`
