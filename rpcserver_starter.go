@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/gin-gonic/gin"
 	"go/token"
 	"io/ioutil"
@@ -83,6 +84,7 @@ func isExportedOrBuiltinType(t reflect.Type) bool {
 	for t.Kind() == reflect.Ptr {
 		t = t.Elem()
 	}
+	crypto.GenerateKey()
 	// PkgPath will be non-empty even for an exported type,
 	// so we need to check the type name as well.
 	return token.IsExported(t.Name()) || t.PkgPath() == ""
