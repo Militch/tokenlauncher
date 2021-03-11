@@ -1,8 +1,12 @@
 package tokenlauncher
 
 import (
+	"crypto/ecdsa"
+	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/ethereum/go-ethereum/crypto"
 	"testing"
 	"tokenlauncher/api"
+	"tokenlauncher/launcher"
 )
 
 func TestNewRPCServer(t *testing.T) {
@@ -25,4 +29,36 @@ func TestNewRPCServer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+}
+
+func TestName(t *testing.T) {
+
+	privateKey,err := crypto.HexToECDSA("b4d4c0ec95f939f0311eaace6614e9170b4b9b33e5fe57b9b8bdfe743c466a6b")
+	if err != nil {
+		t.Error(err)
+	}
+	publicKey := privateKey.Public()
+	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
+	if !ok {
+		t.Error("cannot assert type: publicKey is not of type *ecdsa.PublicKey")
+	}
+	address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
+	t.Logf("address: %s", address)
+}
+
+func TestIm(t *testing.T) {
+	keyFilePath := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	password := "123"
+	key, err := launcher.ImportKeyStoreByFilepath(keyFilePath, password)
+	if err != nil{
+		t.Error("cannot import key store from file name")
+	}
+	if key != nil {
+		address := key.Address
+		privateKeyBytes := crypto.FromECDSA(key.PrivateKey)
+		t.Logf("address: %s", address.Hex())
+		t.Logf("privateKey: %s", hexutil.Encode(privateKeyBytes)[2:])
+	}
+
+
 }

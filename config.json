@@ -1,6 +1,5 @@
 {
-  "rpcUrl": "http://localhost:8101",
-  "chainId": 1,
-  "keyFilePath": "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616",
-  "keyPassword": "123"
+  "rpcUrl": "https://ropsten.infura.io/v3/b2308b9b7ca641feb6f033dbbc995bf1",
+  "chainId": 3,
+  "privateKey": "b4d4c0ec95f939f0311eaace6614e9170b4b9b33e5fe57b9b8bdfe743c466a6b"
 }

@@ -1,12 +1,16 @@
 package launcher
 
 import (
+	"crypto/ecdsa"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/google/uuid"
 	"io/ioutil"
 	"math/big"
 	"tokenlauncher/contract"
@@ -23,8 +27,20 @@ type Launcher struct {
 type config struct {
 	RpcUrl      string `json:"rpcUrl"`
 	ChainId int64 `json:"chainID"`
-	KeyFilePath string `json:"keyFilePath"`
-	KeyPassword string `json:"keyPassword"`
+	PrivateKey string `json:"privateKey"`
+}
+
+func NewKeyFromECDSA(privateKeyECDSA *ecdsa.PrivateKey) *keystore.Key {
+	id, err := uuid.NewRandom()
+	if err != nil {
+		panic(fmt.Sprintf("Could not create random uuid: %v", err))
+	}
+	key := &keystore.Key{
+		Id:         id,
+		Address:    crypto.PubkeyToAddress(privateKeyECDSA.PublicKey),
+		PrivateKey: privateKeyECDSA,
+	}
+	return key
 }
 
 func ImportKeyStoreByFilepath(keyFilepath string, password string) (key *keystore.Key, err error) {
@@ -45,20 +61,20 @@ func NewLauncherDefault() (*Launcher, error)  {
 	if err != nil{
 		return nil, err
 	}
-	return NewLauncher(c.RpcUrl, big.NewInt(c.ChainId), c.KeyFilePath, c.KeyPassword)
+	privateKey,err := crypto.HexToECDSA(c.PrivateKey)
+	if err != nil {
+		return nil, err
+	}
+	return NewLauncher(c.RpcUrl, big.NewInt(c.ChainId), privateKey)
 }
 
 // 创建启动器
-func NewLauncher(rpcUrl string, chainId *big.Int, keyFilepath string, password string) (*Launcher, error) {
+func NewLauncher(rpcUrl string, chainId *big.Int, privateKey *ecdsa.PrivateKey) (*Launcher, error) {
 	client, err := ethclient.Dial(rpcUrl)
 	if err != nil {
 		return nil, err
 	}
-	key, err := ImportKeyStoreByFilepath(keyFilepath, password)
-	if err != nil {
-		return nil, err
-	}
-
+	key := NewKeyFromECDSA(privateKey)
 	return &Launcher{
 		CLI: client,
 		key: key,
