@@ -1,5 +1,5 @@
 {
-  "rpcUrl": "https://ropsten.infura.io/v3/b2308b9b7ca641feb6f033dbbc995bf1",
-  "chainId": 3,
-  "privateKey": "b4d4c0ec95f939f0311eaace6614e9170b4b9b33e5fe57b9b8bdfe743c466a6b"
+  "rpcUrl": "http://183.66.216.198:8081",
+  "chainId": 10086,
+  "privateKey": "4b2ec98554809c9fa24e1b8d939eb6bb36867177287bc386754d727434650d3a"
 }

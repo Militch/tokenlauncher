@@ -47,7 +47,7 @@ func TestName(t *testing.T) {
 }
 
 func TestIm(t *testing.T) {
-	keyFilePath := "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616"
+	keyFilePath := "./keystore/UTC--2021-03-12T12-52-15.284179379Z--ffd15b670f81779fd65065784afb32fa41822292"
 	password := "123"
 	key, err := launcher.ImportKeyStoreByFilepath(keyFilePath, password)
 	if err != nil{

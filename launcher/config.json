@@ -1,6 +1,0 @@
-{
-  "rpcUrl": "http://localhost:8101",
-  "chainId": 1,
-  "keyFilePath": "D:\\workspace\\fixtoken\\data0\\keystore\\UTC--2021-03-10T14-52-34.930392300Z--b6ed37548cafdbea7316046fefd0df6ea8acf616",
-  "keyPassword": "123"
-}

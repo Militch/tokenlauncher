@@ -1,0 +1,5 @@
+{
+  "rpcUrl": "https://ropsten.infura.io/v3/b2308b9b7ca641feb6f033dbbc995bf1",
+  "chainId": 3,
+  "privateKey": "b4d4c0ec95f939f0311eaace6614e9170b4b9b33e5fe57b9b8bdfe743c466a6b"
+}
